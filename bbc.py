@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as soup
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+import csv
 
 
 URL = "https://www.bbc.com/"
@@ -10,6 +11,8 @@ def bbc_scrapper():
     op.add_argument('headless')
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=op)
     driver.get(URL)
+    links = []
+    headlines = []
 
     # print(indeed_result.text) --> to scrap all HTML Text
     # INSTEAD OF THIS, I will scrap with BEAUTIFULSOUP for seeing the html text I have
@@ -21,25 +24,36 @@ def bbc_scrapper():
         s1 = page_soup.find_all("a", {"class":"media__link"})
         URL_new = "https://www.bbc.com"
         for s in s1:
-            links = []
+
             href = s.attrs['href']
             links.append(URL_new+href)
             
             #strip for getting rid of unnecessary spaces
-            headline_text = s.get_text().strip()
-            headlines = []
+            headline_text = s.get_text().strip()           
             headlines.append(headline_text)
 
-            dict_bbc = [
+        dict_bbc = [
             {'headline': headlines, 'url': links} 
             for links, headlines 
-            in zip(links, headlines)]
+            in zip(links, headlines)]    
+    
+        def save_csv_bbc():
+            keys = dict_bbc[0].keys()   
 
-            
-            print(dict_bbc)
+            a_file = open('./output_bbc.csv', 'w', newline='')
+            dict_writer = csv.DictWriter(a_file, keys)
+            dict_writer.writeheader()
+            dict_writer.writerows(dict_bbc)
+            a_file.close()
 
-
+        save_csv_bbc()
+    
+    driver.close()
+    
     sec1()
+    
+bbc_scrapper()
+
 
     # For keeping simple, I would chosse only the above headlines
     # def sec2():
@@ -63,7 +77,3 @@ def bbc_scrapper():
     
     # sec2()
         
-
-    driver.close()
-
-#bbc_scrapper()

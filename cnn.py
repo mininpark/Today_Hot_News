@@ -1,12 +1,14 @@
 # Instead of Python Basic Library urllib --> I use more powerful Libaray "REQUESTS" 
-from ctypes import resize
+from os import link
 from bs4 import BeautifulSoup as soup
-from matplotlib.cbook import print_cycles
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+import csv
 
 
 URL = "https://edition.cnn.com/"
+
+
 
 def cnn_scrapper():
     #result = requests.get(URL)
@@ -17,22 +19,18 @@ def cnn_scrapper():
     op.add_argument('headless')
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=op)
     driver.get(URL)
+    links_with_text = []
+    headlines = []
 
     # print(indeed_result.text) --> to scrap all HTML Text
     # INSTEAD OF THIS, I will scrap with BEAUTIFULSOUP for seeing the html text I have
-
     page = driver.page_source
     page_soup = soup(page, 'html.parser')
 
     articles = page_soup.find_all("div", {"class":"cd__content"})
-    dict_cnn = {"url", "headline"}
-    
+
 
     for article in articles:
-        links_with_text = []
-        headlines = []
-    
-
         for a in article.find_all('a', href=True): 
             if a.text: 
                 URL_new = "https://edition.cnn.com"
@@ -43,20 +41,34 @@ def cnn_scrapper():
                 else:
                     links_with_text.append(URL_new+a['href'])
 
-
         headline = article.find("span", {"class":"cd__headline-text"})
         headline_text = headline.get_text()
         headlines.append(headline_text)
 
-        dict_cnn = [
-            {'headline': headlines, 'url': links_with_text} 
-            for links_with_text, headlines 
-            in zip(links_with_text, headlines)]
-
-        return dict_cnn
+    dict_cnn = [{'headline' : headlines, 'url' : links_with_text} for headlines, links_with_text in zip(headlines,links_with_text)]
+    
 
 
+    #Print the keys and values of the dictionary
+    #print(dict_cnn)
+
+    # csv saving   
+    keys = dict_cnn[0].keys()   
+
+    a_file = open('output_cnn.csv', 'w', newline='')
+    dict_writer = csv.DictWriter(a_file, keys)
+    dict_writer.writeheader()
+    dict_writer.writerows(dict_cnn)
+    a_file.close()
+
+    # loop over dictionary keys and values
+    #for key, val in dict_cnn.items():
+
+        # write every key and value to file
+        #    w.writerow([key, val])
+    
     driver.close()
-
 #cnn_scrapper()
+
+
 
