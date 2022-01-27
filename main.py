@@ -1,25 +1,37 @@
-from cnn import cnn_scrapper as get_cnn_headlines
-from bbc import bbc_scrapper as get_bbc_headlines
-import csv
+from flask import Flask, render_template, request, redirect
+import pandas as pd
+
+app = Flask(__name__, template_folder='template')
+
+# to read the csv file using the pandas library 
+df = pd.read_csv('combined.csv') 
+df.to_csv('combined.csv', index=None)
+
+@app.route("/")
+def home():
+    return render_template('index.html')
 
 
+@app.route("/report") 
+def report(): 
+    name = request.args.get('name')
+    # for making as lowercase
+    if name:
+        name = name.lower()
+    else:
+        redirect("/")
 
-cnn_headlines = get_cnn_headlines()
-bbc_headlines = get_bbc_headlines()
+	# to read the csv file using the pandas library 
+    df = pd.read_csv('combined.csv') 
+    return render_template('report.html', tables=[data.to_html()], titles=[''], SearchingBy = name) 
 
 
-# to mearchge dictionaries from both scrappers
-reader = csv.reader(open("output_bbc.csv"))
-reader1 = csv.reader(open("output_cnn.csv"))
-# CSV file written with Python has blank lines between each row mode: w-->wb
-f = open("combined.csv", "w", newline='')
-writer = csv.writer(f)
+# @ is as decorator to decorate the function under them ./contact  
+# dynamc url
+#@app.route("/<username>")
+#def potato(username):
+#    return f"Hello {username} How are you doing"
 
-for row in reader:
-    writer.writerow(row)
-for row in reader1:
-    writer.writerow(row)
-
-f.close()
-#saving csv (Comma sperated values)
-
+# debug True is for refreshing automatically
+if __name__ =="__main__":
+    app.run(host="0.0.0.0", debug=True)

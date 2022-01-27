@@ -2,9 +2,13 @@ from bs4 import BeautifulSoup as soup
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 import csv
-
+import os
+import pandas
 
 URL = "https://www.bbc.com/"
+dirname = os.path.dirname(os.path.abspath(__file__))
+csvfilename = os.path.join(dirname, 'output_bbc.csv')
+
 
 def bbc_scrapper():
     op = webdriver.ChromeOptions()
@@ -40,11 +44,11 @@ def bbc_scrapper():
         def save_csv_bbc():
             keys = dict_bbc[0].keys()   
 
-            a_file = open('./output_bbc.csv', 'w', newline='')
-            dict_writer = csv.DictWriter(a_file, keys)
+            output_file = open(csvfilename, 'w', newline='')
+            dict_writer = csv.DictWriter(output_file, keys)
             dict_writer.writeheader()
             dict_writer.writerows(dict_bbc)
-            a_file.close()
+            output_file.close()
 
         save_csv_bbc()
     
@@ -52,7 +56,7 @@ def bbc_scrapper():
     
     sec1()
     
-bbc_scrapper()
+#bbc_scrapper()
 
 
     # For keeping simple, I would chosse only the above headlines

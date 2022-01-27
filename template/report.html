@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Today's Hot News</title>
+        <meta http-equiv="refresh" content="5" >
+    </head>
+    <body>
+        <h1>Today's Hot News</h1>
+        <h3>Here is news for {{SearchingBy}}</h3>
+        <div align="center">
+            <table>
+                <h1>
+                <!--Displaying the converted table-->
+                     {% for table in tables %}
+                    <h2>{{titles[loop.index]}}</h2>                            
+                    {{ table|safe }}
+                    {% endfor %}     
+                </h1> 
+            </table>
+        </div>
+    </body> 
+</html>
