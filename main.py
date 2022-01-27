@@ -23,7 +23,7 @@ def report():
 
 	# to read the csv file using the pandas library 
     df = pd.read_csv('combined.csv') 
-    return render_template('report.html', tables=[data.to_html()], titles=[''], SearchingBy = name) 
+    return render_template('report.html', tables=[df.to_html()], titles=[''], SearchingBy = name) 
 
 
 # @ is as decorator to decorate the function under them ./contact  
