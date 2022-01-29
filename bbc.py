@@ -3,7 +3,8 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 import csv
 import os
-import pandas
+from urllib.parse import urlparse
+
 
 URL = "https://www.bbc.com"
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -28,9 +29,12 @@ def bbc_scrapper():
         s1 = page_soup.find_all("a", {"class":"media__link"})
         #URL_new = "https://www.bbc.com"
         for s in s1:
-
             href = s.attrs['href']
-            links.append(URL+href)
+            href_n = urlparse(href)
+            href_new = href_n._replace(scheme='https', netloc='www.bbc.com')
+            url = (href_new.geturl()) # https://velog.io/tags
+
+            links.append(url)
             
             #strip for getting rid of unnecessary spaces
             headline_text = s.get_text().strip()           

@@ -3,6 +3,9 @@ from csv import reader
 import pandas as pd
 from flask import Flask, redirect, render_template, request
 from datetime import date
+from save import save_csv
+
+save_csv()
 
 app = Flask(__name__, template_folder='template')
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -21,6 +24,7 @@ with open(headline_file, 'r') as read_obj:
     #          # row variable is a list that represents a row in csv
         headline_list.append(row)
     df = headline_list[1:]
+
     #df = pd.DataFrame (data=df, columns=['head','link'])
 
 

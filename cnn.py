@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup as soup
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 import csv
-
+from urllib.parse import urlparse
 
 URL = "https://edition.cnn.com"
 
@@ -33,13 +33,14 @@ def cnn_scrapper():
 
     for article in articles:
         for a in article.find_all('a', href=True): 
-            if a.text: 
+            #if a.text: 
                 # there are some url links with are already stated with URL, which is not included for many other extracted URLs.
-                if URL not in a.text:
-                    links_with_text.append(URL+a['href'])
-                else:
-                    a_new = a.text.replace('https://edition.cnn.com', '')
-                    links_with_text.append(URL+a_new['href'])
+            href = a.attrs['href']
+            href_n = urlparse(href)
+            href_new = href_n._replace(scheme='https', netloc='edition.cnn.com')
+            url = (href_new.geturl()) 
+
+            links_with_text.append(url)
 
         headline = article.find("span", {"class":"cd__headline-text"})
         headline_text = headline.get_text()

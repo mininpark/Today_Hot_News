@@ -5,8 +5,6 @@ import os
 import pandas as pd
 
 
-
-
 def save_csv():
     get_cnn_headlines()
     get_bbc_headlines()
@@ -21,7 +19,8 @@ def save_csv():
 
     print("Saving now...");
     # joining files with concat and read_csv
-    combined_csv = pd.concat([pd.read_csv(f) for f in files])
+    combined_csv = pd.concat([pd.read_csv(f) for f in files]).drop_duplicates().reset_index(drop=True)
+    #final_combined_csv = pd.unique(combined_csv).tolist()
 
     os.chdir(os.path.dirname(__file__))
 
@@ -29,7 +28,7 @@ def save_csv():
     #df = pd.concat(map(pd.read_csv, files), ignore_index=True)
     #print(df)
 
-save_csv()
+#save_csv()
 
 # checklist
 
