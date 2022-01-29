@@ -1,26 +1,35 @@
 from cnn import cnn_scrapper as get_cnn_headlines
 from bbc import bbc_scrapper as get_bbc_headlines
-
+import glob
 import os
 import pandas as pd
 
-dirname = os.path.dirname(os.path.abspath(__file__))
-
-cnn_headlines = get_cnn_headlines()
-bbc_headlines = get_bbc_headlines()
-
-# to mearchge dictionaries from both scrappers
-csv_cnn = csvfilename = os.path.join(dirname, 'output_cnn.csv')
-csv_bbc = csvfilename = os.path.join(dirname, 'output_bbc.csv')
 
 
-# CSV file written with Python has blank lines between each row mode: w-->wb
-f1 = pd.read_csv(csv_cnn, header=None)
-f2 = pd.read_csv(csv_bbc, header=None)
-merged = pd.concat([f1, f2])
-merged.to_csv('combined.csv', index=None, header=None)
 
-#saving csv (Comma sperated values)
+def save_csv():
+    get_cnn_headlines()
+    get_bbc_headlines()
+    
+    dirname = os.path.dirname(os.path.abspath(__file__))
+
+    # to mearchge dictionaries from both scrappers
+    files = os.path.join(dirname, '*.csv')
+
+    # list of merged files returned
+    files = glob.glob(files)
+
+    print("Saving now...");
+    # joining files with concat and read_csv
+    combined_csv = pd.concat([pd.read_csv(f) for f in files])
+
+    os.chdir(os.path.dirname(__file__))
+
+    combined_csv.to_csv("combined.csv", index=False, encoding='utf-8-sig')
+    #df = pd.concat(map(pd.read_csv, files), ignore_index=True)
+    #print(df)
+
+save_csv()
 
 # checklist
 

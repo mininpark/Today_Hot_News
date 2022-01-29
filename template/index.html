@@ -3,13 +3,49 @@
     <head>
         <title>Today's Hot News</title>
         <meta http-equiv="refresh" content="5" >
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap');
+
+            * {
+                margin: 0;
+                padding: 0;
+                text-decoration: none;
+                box-sizing: border-box;
+                border: 0;
+                font-size: 100%;
+                font: inherit;
+                list-style: none;
+                -webkit-font-smoothing: antialiased; /*font pixel antialiased*/
+            }
+
+            html { 
+                background: linear-gradient(to bottom, hsl(273, 75%, 66%), hsl(240, 73%, 65%)) no-repeat center center fixed; 
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+            }
+
+            body {
+                font-family: 'Kumbh Sans', sans-serif; font-weight: 400; font-size: 16px; 
+                display: flex; justify-content: center; align-items: center; min-height: 100vh;}
+
+            h1 {font-size: 50px; font-weight: 600; margin-bottom: 20px;}
+            section {display:flex; justify-content: center; align-items: center; width: 70vw; height: 20vw;}
+            form {display: flex; justify-content: center;}
+            input {padding: 8px; margin-right: 5px;}
+            button {padding: 8px; margin-left: 5px;}
+
+        </style>
     </head>
     <body>
-        <h1>Today's Hot News</h1>
+        <sction>
+            <h1>Today's Hot News</h1>
 
-        <form action="/report" method="get">
-            <input placeholder='What is your name?' required name="name" />
-            <button>NEXT</button>
-        </form>
+            <form action="/report" method="get">
+                <input placeholder='What is your name?' required name="name" />
+                <button>NEXT</button>
+            </form>
+        </sction>
     </body> 
 </html>

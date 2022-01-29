@@ -5,7 +5,7 @@ import csv
 import os
 import pandas
 
-URL = "https://www.bbc.com/"
+URL = "https://www.bbc.com"
 dirname = os.path.dirname(os.path.abspath(__file__))
 csvfilename = os.path.join(dirname, 'output_bbc.csv')
 
@@ -26,11 +26,11 @@ def bbc_scrapper():
 
     def sec1():
         s1 = page_soup.find_all("a", {"class":"media__link"})
-        URL_new = "https://www.bbc.com"
+        #URL_new = "https://www.bbc.com"
         for s in s1:
 
             href = s.attrs['href']
-            links.append(URL_new+href)
+            links.append(URL+href)
             
             #strip for getting rid of unnecessary spaces
             headline_text = s.get_text().strip()           

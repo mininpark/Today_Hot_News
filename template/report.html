@@ -3,20 +3,31 @@
     <head>
         <title>Today's Hot News</title>
         <meta http-equiv="refresh" content="5" >
+        <link rel="stylesheet" href="./static/style.css" />
+
     </head>
     <body>
-        <h1>Today's Hot News</h1>
-        <h3>Here is news for {{SearchingBy}}</h3>
-        <div align="center">
-            <table>
-                <h1>
-                <!--Displaying the converted table-->
-                     {% for table in tables %}
-                    <h2>{{titles[loop.index]}}</h2>                            
-                    {{ table|safe }}
-                    {% endfor %}     
-                </h1> 
-            </table>
-        </div>
+        <section class="header">
+            <h1>Hello, {{SearchingBy}} </h1>
+            <h2 class="topic">Here is  today's Hot News</h2>
+            <h3>We have {{resultsNumber}} important newses for you</h3>
+            <h2>{{today}}</h3>
+        </section>
+        <table class="table">
+            <tr class = "table__header">
+                <th>Title</th>
+                <th>Details</th>
+            </tr>
+            {% for row in headline_list %}
+            <tr class = "table__row">
+                {% for cell in row %}
+                <td class = "table__cell">
+                    {{ cell }}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+
     </body> 
 </html>
